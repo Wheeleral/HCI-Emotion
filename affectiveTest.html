@@ -1,0 +1,32 @@
+<html>
+<head> 
+    <script src= "https://download.affectiva.com/js/3.2/affdex.js"></script>
+</head>
+<body>
+    <div id = "video">
+            <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/tgbNymZ7vqY">
+            </iframe>
+    </div>
+
+</body>
+
+<script>
+    window.onload = function () {
+        const videoWidth = 640, videoHeight = 480
+        const faceMode = affdex.FaceDetectorMode.LARGE_FACES
+        const detector = new affdex.CameraDetector(
+            document.querySelector('body'), 
+             videoWidth, videoHeight, faceMode
+        )
+        //detector.detectEmotions = true;
+        detector.detectAllEmojis();
+        detector.addEventListener('onImageResultsSuccess', function (faces){
+            console.log(faces);
+        })
+        detector.start();
+
+    }
+</script>
+
+</html>
