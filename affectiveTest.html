@@ -8,17 +8,26 @@
 </head>
 
 <body>
-    <iframe id = "video" width="420" height="280" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-    <input type="text" id="videoURL" > <button onclick = "videoChange()"> Submit
-    </button>
+    <iframe  style ="position: absolute;left: 30%;" id = "video" width="420" height="280" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+    <input style ="position: absolute;top: 5%;left: 5%;"  type="text" id="videoURL" > 
+    <button style ="position: absolute;top: 10%;left: 5%;"  onclick = "videoChange()">Submit Video Link</button>
     <br>
+    <div  style ="position: absolute;left: 70%;" id ="when">Waiting...</div>
 
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="chartContainer" style="height: 300px; width: 100%; position: absolute;top: 50%;"></div>
 
 
 </body>
 
 <script>
+
+    //Add Ideas
+    //Moving Average
+    //Look Pretty
+    //Get youtube link better?
+    //better sampling
+
+
     function videoChange() {
         var text = document.getElementById("videoURL").value;
         var vid = document.getElementById("video");
@@ -26,8 +35,7 @@
 
     }
 
-
-
+   
     var dataPointsHappy = [];
     var dataPointsSad = [];
     var dataPointsAngry = [];
@@ -78,6 +86,7 @@
             ]
         });
         updateData();
+        
 
         // Initial Values
         var xValue = 0;
@@ -98,7 +107,7 @@
         }
 
         function affectiveStart() {
-            const videoWidth = 0, videoHeight = 0
+            const videoWidth = 1, videoHeight = 1
             const faceMode = affdex.FaceDetectorMode.LARGE_FACES
             const detector = new affdex.CameraDetector(
                 document.querySelector('body'),
@@ -118,18 +127,19 @@
                 }
 
             })
+            detector.addEventListener('onInitializeSuccess', function(){
+                var when = document.getElementById("when");
+                when.innerText = "Play Video"
+            })
+
+
             detector.start();
         }
 
-
-
     }
 
 
-
-    function chartStart() {
-
-    }
+    function chartStart() {}
 </script>
 
 </html>
