@@ -8,14 +8,16 @@
 </head>
 
 <body>
-    <iframe  style ="position: absolute;left: 30%;" id = "video" width="420" height="280" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-    <input style ="position: absolute;top: 5%;left: 2%;"  type="text" id="videoURL" > 
-    <button style ="position: absolute;top: 10%;left: 2%;"  onclick = "videoChange()">Submit Video Link</button>
-    <br>
-    <div  style ="position: absolute;left: 65%; color:crimson;font-size: 200%;" id ="when">Waiting...</div>
+    <iframe style="position: absolute;left: 30%;" id="video" width="420" height="280" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+    <input style="position: absolute;top: 5%;left: 2%;" type="text" id="videoURL">
+    <button style="position: absolute;top: 10%;left: 2%;" onclick="videoChange()">Submit Video Link</button>
+    <div style="font-family: Trebuchet MS; position: absolute;top: 15%;left: 2%; width : 250px">Put in a embeded
+        youtube link into the input and click submit to change video. When text on the right changes you can play video
+        and your emotions will be graphed. </div>
+    <div style="position: absolute;left: 65%; color:crimson;font-size: 200%;  font-family: Trebuchet MS;" id="when">Waiting...</div>
 
     <div id="chartContainer" style="height: 300px; width: 100%; position: absolute;top: 50%;"></div>
-    <div id = "videoCamera" hidden ></div>
+    <div id="videoCamera" hidden></div>
 
 </body>
 
@@ -35,7 +37,7 @@
 
     }
 
-   
+
     var dataPointsHappy = [];
     var dataPointsSad = [];
     var dataPointsAngry = [];
@@ -57,36 +59,43 @@
                 verticalAlign: "top",
                 horizontalAlign: "center"
             },
+            axisY: {
+                title: "Emotional Intensity",
+                minimum: 0,
+                maximum: 100
+            },
+            axisX: {
+                title: "Time",
+                minimum: 0            },
             data: [{
                 type: "line",
-                
-		name: "Happy",
-		showInLegend: true,
+                name: "Happy",
+                showInLegend: true,
                 dataPoints: dataPointsHappy
             }, {
                 type: "line",
-                
-		name: "Sad",
-		showInLegend: true,
+
+                name: "Sad",
+                showInLegend: true,
                 dataPoints: dataPointsSad
             }, {
                 type: "line",
-                
-		name: "Angry",
-		showInLegend: true,
+
+                name: "Angry",
+                showInLegend: true,
                 dataPoints: dataPointsAngry
             }, {
                 type: "line",
-                
-		name: "Surprise",
-		showInLegend: true,
+
+                name: "Surprise",
+                showInLegend: true,
                 dataPoints: dataPointsSuprise
             },
 
             ]
         });
         updateData();
-        
+
 
         // Initial Values
         var xValue = 0;
@@ -105,10 +114,10 @@
             chart.render();
             setTimeout(updateData, 1500);
         }
-        var happyMean = [0,0,0];
-        var sadMean = [0,0,0];
-        var angryMean = [0,0,0];
-        var supMean = [0,0,0];
+        var happyMean = [0, 0, 0];
+        var sadMean = [0, 0, 0];
+        var angryMean = [0, 0, 0];
+        var supMean = [0, 0, 0];
 
 
         function affectiveStart() {
@@ -120,18 +129,19 @@
             )
             //detector.detectEmotions = true;
             detector.detectAllEmotions();
-            detector.addEventListener('onInitializeSuccess', function(){
+            detector.addEventListener('onInitializeSuccess', function () {
                 var when = document.getElementById("when");
                 when.innerText = "Play Video"
-                when.style.color ="black"
+                when.style.color = "black"
             })
+
             detector.addEventListener('onImageResultsSuccess', function (faces) {
                 if (faces.length > 0) {
                     console.log(faces[0].emotions);
-                   
+
                     let meanHappy = Mean(happyMean, faces[0].emotions.joy)
-                    let meanSad = Mean(sadMean,faces[0].emotions.sadness)
-                    let meanAngry = Mean(angryMean,faces[0].emotions.anger)
+                    let meanSad = Mean(sadMean, faces[0].emotions.sadness)
+                    let meanAngry = Mean(angryMean, faces[0].emotions.anger)
                     let meanSup = Mean(supMean, faces[0].emotions.surprise)
                     dataPointsHappy.push({ x: xValue, y: meanHappy })
                     dataPointsSad.push({ x: xValue, y: meanSad })
@@ -142,7 +152,7 @@
                 }
 
             })
-            
+
 
 
             detector.start();
@@ -150,7 +160,7 @@
 
     }
 
-    function Mean(array, addValue){
+    function Mean(array, addValue) {
         array.pop()
         array.push(addValue)
         var mean = (array[0] + array[1] + array[2]) / 3.0
@@ -158,7 +168,7 @@
     }
 
 
-    function chartStart() {}
+    function chartStart() { }
 </script>
 
 </html>
