@@ -105,6 +105,11 @@
             chart.render();
             setTimeout(updateData, 1500);
         }
+        var happyMean = [0,0,0];
+        var sadMean = [0,0,0];
+        var angryMean = [0,0,0];
+        var supMean = [0,0,0];
+
 
         function affectiveStart() {
             const videoWidth = 100, videoHeight = 100
@@ -123,10 +128,15 @@
             detector.addEventListener('onImageResultsSuccess', function (faces) {
                 if (faces.length > 0) {
                     console.log(faces[0].emotions);
-                    dataPointsSuprise.push({ x: xValue, y: faces[0].emotions.surprise })
-                    dataPointsAngry.push({ x: xValue, y: faces[0].emotions.anger })
-                    dataPointsHappy.push({ x: xValue, y: faces[0].emotions.joy })
-                    dataPointsSad.push({ x: xValue, y: faces[0].emotions.sadness })
+                   
+                    let meanHappy = Mean(happyMean, faces[0].emotions.joy)
+                    let meanSad = Mean(sadMean,faces[0].emotions.sadness)
+                    let meanAngry = Mean(angryMean,faces[0].emotions.anger)
+                    let meanSup = Mean(supMean, faces[0].emotions.surprise)
+                    dataPointsHappy.push({ x: xValue, y: meanHappy })
+                    dataPointsSad.push({ x: xValue, y: meanSad })
+                    dataPointsSuprise.push({ x: xValue, y: meanAngry })
+                    dataPointsAngry.push({ x: xValue, y: meanSup })
                     xValue++;
 
                 }
@@ -138,6 +148,13 @@
             detector.start();
         }
 
+    }
+
+    function Mean(array, addValue){
+        array.pop()
+        array.push(addValue)
+        var mean = (array[0] + array[1] + array[2]) / 3.0
+        return mean;
     }
 
 
