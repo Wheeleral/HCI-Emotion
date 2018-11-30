@@ -9,13 +9,13 @@
 
 <body>
     <iframe  style ="position: absolute;left: 30%;" id = "video" width="420" height="280" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-    <input style ="position: absolute;top: 5%;left: 5%;"  type="text" id="videoURL" > 
-    <button style ="position: absolute;top: 10%;left: 5%;"  onclick = "videoChange()">Submit Video Link</button>
+    <input style ="position: absolute;top: 5%;left: 2%;"  type="text" id="videoURL" > 
+    <button style ="position: absolute;top: 10%;left: 2%;"  onclick = "videoChange()">Submit Video Link</button>
     <br>
-    <div  style ="position: absolute;left: 70%;" id ="when">Waiting...</div>
+    <div  style ="position: absolute;left: 65%; color:crimson;font-size: 200%;" id ="when">Waiting...</div>
 
     <div id="chartContainer" style="height: 300px; width: 100%; position: absolute;top: 50%;"></div>
-
+    <div id = "videoCamera" hidden ></div>
 
 </body>
 
@@ -107,14 +107,19 @@
         }
 
         function affectiveStart() {
-            const videoWidth = 1, videoHeight = 1
+            const videoWidth = 100, videoHeight = 100
             const faceMode = affdex.FaceDetectorMode.LARGE_FACES
             const detector = new affdex.CameraDetector(
-                document.querySelector('body'),
+                document.getElementById('videoCamera'),
                 videoWidth, videoHeight, faceMode
             )
             //detector.detectEmotions = true;
             detector.detectAllEmotions();
+            detector.addEventListener('onInitializeSuccess', function(){
+                var when = document.getElementById("when");
+                when.innerText = "Play Video"
+                when.style.color ="black"
+            })
             detector.addEventListener('onImageResultsSuccess', function (faces) {
                 if (faces.length > 0) {
                     console.log(faces[0].emotions);
@@ -127,10 +132,7 @@
                 }
 
             })
-            detector.addEventListener('onInitializeSuccess', function(){
-                var when = document.getElementById("when");
-                when.innerText = "Play Video"
-            })
+            
 
 
             detector.start();
